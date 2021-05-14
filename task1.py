@@ -2,28 +2,25 @@ from CartPole import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-# to simulate a rollout
-
-# stable equilibrium position
-# nonzero initial cart velocity or angular velocity
-# no applied force
+# task 1.1 simulate a rollout
 
 """initialisation"""
 cartpole1 = CartPole()
-max_t = 200.0 # terminate time for the simulation
+max_t = 100.0 # terminate time for the simulation
 n = int(max_t/cartpole1.delta_time) # number of iterations for performAction
 
+"""set the initial state to start with"""
 state1 = [0, 5, np.pi, 0] # nonzero cart velocity
-state2 = [0, 0, np.pi, -0.1] # nonzero angular velocity
+state2 = [0, 10, np.pi, -15] # nonzero angular velocity
 init_state = state2
+cartpole1.setState(state=init_state)
 
+"""lists of system variables"""
 x = []
 x_dot = []
 theta = []
 theta_dot = []
 t = np.arange(0,max_t,cartpole1.delta_time)
-
-cartpole1.setState(state=init_state)
 
 """run the simulation"""
 for i in range(n):
@@ -55,7 +52,8 @@ axs[1,1].plot(t,theta_dot)
 axs[1,1].set_title('pole_velocity')
 axs[1,1].set_xlabel('time (s)')
 axs[1,1].set_ylabel('angular velocity (rad/s)')
-fig.suptitle('initial state: {}'.format(init_state), fontsize=16)
+fig.suptitle('initial state: {0:.2f}, {1:.2f}, {2:.2f}, {3:.2f}'.format(init_state[0],init_state[1],
+                                                                    init_state[2],init_state[3]), fontsize=16)
 # fig.tight_layout()
 plt.show()
 

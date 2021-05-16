@@ -8,8 +8,8 @@ cartpole1 = CartPole()
 
 """setting the state scans"""
 x_dot_scan = np.arange(-10,10,0.1)
-theta_scan = np.arange(-np.pi,np.pi,0.1)
-theta_dot_scan = np.arange(-15,15,0.1)
+theta_scan = np.arange(np.pi-0.1,np.pi,0.001)
+theta_dot_scan = np.arange(14.5,15,0.01)
 
 """Y plot for x_dot scan"""
 Y1 = []

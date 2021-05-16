@@ -10,9 +10,9 @@ max_t = 100.0 # terminate time for the simulation
 n = int(max_t/cartpole1.delta_time) # number of iterations for performAction
 
 """set the initial state to start with"""
-state1 = [0, 10, np.pi, 0] # nonzero cart velocity
-state2 = [0, 0, np.pi, -14.5] # nonzero angular velocity
-init_state = state2
+state1 = [0, 5, np.pi, 0] # nonzero cart velocity
+state2 = [0, 0, np.pi, -13.5] # nonzero angular velocity
+init_state = state1 
 cartpole1.setState(state=init_state)
 
 """lists of system variables"""
@@ -49,7 +49,7 @@ axs[1,0].plot(t,theta)
 axs[1,0].set_title('pole_angle')
 axs[1,0].set_xlabel('time (s)')
 axs[1,0].set_ylabel('angle (rad)')
-axs[1,0].set_xlim([0,8.0])
+# axs[1,0].set_xlim([0,8.0])
 axs[1,1].plot(t,theta_dot)
 axs[1,1].set_title('pole_velocity')
 axs[1,1].set_xlabel('time (s)')

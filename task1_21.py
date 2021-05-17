@@ -12,10 +12,10 @@ x_dot_scan = np.arange(-10,10,0.1)
 theta_scan = np.arange(np.pi-0.1,np.pi,0.001)
 theta_dot_scan = np.arange(14.5,15,0.01)
 
-"""Y plot for x_dot scan"""
+"""Y plot for x scan"""
 Y0 = []
 for x in x_scan:
-    X = [x,x,np.pi,0]
+    X = [x,0,np.pi,0]
     cartpole1.setState(X)
     cartpole1.performAction()
     Y = cartpole1.getState()

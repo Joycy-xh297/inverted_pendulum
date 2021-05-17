@@ -95,10 +95,10 @@ class CartPole:
             c = np.cos(self.pole_angle)
             m = 4.0*(self.cart_mass+self.pole_mass)-3.0*self.pole_mass*(c**2)
             
-            cart_accel = (2.0*(self.pole_length*self.pole_mass*(self.pole_velocity**2)*s+force-self.mu_c*self.cart_velocity)\
-                -3.0*self.pole_mass*self.gravity*c*s )/m
+            cart_accel = (2.0*(self.pole_length*self.pole_mass*(self.pole_velocity**2)*s+2.0*(force-self.mu_c*self.cart_velocity))\
+                -3.0*self.pole_mass*self.gravity*c*s + 6.0*self.mu_p*self.pole_velocity*c/self.pole_length)/m
             
-            pole_accel = (-3.0*c*(self.pole_length/2.0*self.pole_mass*(self.pole_velocity**2)*s + force-self.mu_c*self.cart_velocity)+\
+            pole_accel = (-3.0*c*(2.0/self.pole_length)*(self.pole_length/2.0*self.pole_mass*(self.pole_velocity**2)*s + force-self.mu_c*self.cart_velocity)+\
                 6.0*(self.cart_mass+self.pole_mass)/(self.pole_mass*self.pole_length)*\
                 (self.pole_mass*self.gravity*s - 2.0/self.pole_length*self.mu_p*self.pole_velocity) \
                 )/m
@@ -122,16 +122,6 @@ class CartPole:
     def loss(self):
         return _loss(self.getState())
     
-    def terminate(self):
-        """Indicates whether or not the episode should terminate.
-
-        Returns:
-            A boolean, true indicating the end of an episode and false indicating the episode should continue.
-            False is returned if either the cart location or
-            the pole angle is beyond the allowed range.
-        """
-        return np.abs(self.cart_location) > self.state_range[0, 1] or \
-               (np.abs(self.pole_angle) > self.state_range[2, 1]).any()
 
    # the following are graphics routines
     def drawPlot(self):
@@ -163,7 +153,6 @@ class CartPole:
         self.fig.show()
         
         plt.pause(0.2)
-
 
 
 

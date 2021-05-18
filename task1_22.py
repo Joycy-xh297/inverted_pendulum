@@ -85,15 +85,15 @@ def plot_scan(t,y,scan):
 # plot_scan(t_data,y_data,scan_name)
 
 """setting the state scans for contours"""
-x_scan = np.arange(-10,10,0.1)
-x_dot_scan = np.arange(-10,10,0.1)
+x_scan = np.linspace(-10,10,50)
+x_dot_scan = np.linspace(-10,10,50)
 theta_scan = np.linspace(-np.pi,np.pi,50)
 theta_dot_scan = np.linspace(-15,15,50)
 
 # contour plots 4C2 = 6
 
 """first generate Z for the contours"""
-"""
+
 Y01 = [] # x & x_dot
 for x in x_scan:
     Y0 = []
@@ -153,7 +153,7 @@ for x_dot in x_dot_scan:
         Y1.append((Y-X))
     Y13.append(Y1)
 Y13 = np.array(Y13)
-"""
+
 Y23 = [] # theta & theta_dot
 for theta in theta_scan:
     Y2 = []
@@ -169,14 +169,48 @@ Y23 = np.array(Y23)
 
 
 """plot the contours"""
-def contour_plots(x,y,z):
-    fig, ax = plt.subplots()
+def contour_plots(x,y,z,name):
+
+    fig, axs = plt.subplots(2,2,figsize=(12,8),constrained_layout=True)
     x, y = np.meshgrid(x,y)
     triang = tri.Triangulation(x.flatten(), y.flatten())
-    cntr = ax.tricontourf(triang, z[:,:,0].flatten())
-    fig.colorbar(cntr, ax=ax)
-    ax.tricontour(triang,z[:,:,0].flatten())
+
+    cntr1 = axs[0,0].tricontourf(triang, z[:,:,0].flatten())
+    fig.colorbar(cntr1, ax=axs[0,0])
+    axs[0,0].tricontour(triang,z[:,:,0].flatten())
+    axs[0,0].set_xlabel(name[0])
+    axs[0,0].set_ylabel(name[1])
+    axs[0,0].set_title('next cart_location')
+
+    cntr2 = axs[0,1].tricontourf(triang, z[:,:,1].flatten())
+    fig.colorbar(cntr2, ax=axs[0,1])
+    axs[0,1].tricontour(triang,z[:,:,1].flatten())
+    axs[0,1].set_xlabel(name[0])
+    axs[0,1].set_ylabel(name[1])
+    axs[0,1].set_title('next cart_velocity')
+
+    cntr3 = axs[1,0].tricontourf(triang, z[:,:,2].flatten())
+    fig.colorbar(cntr3, ax=axs[1,0])
+    axs[1,0].tricontour(triang,z[:,:,2].flatten())
+    axs[1,0].set_xlabel(name[0])
+    axs[1,0].set_ylabel(name[1])
+    axs[1,0].set_title('next pole angle')
+
+    cntr4 = axs[1,1].tricontourf(triang, z[:,:,3].flatten())
+    fig.colorbar(cntr4, ax=axs[1,1])
+    axs[1,1].tricontour(triang,z[:,:,3].flatten())
+    axs[1,1].set_xlabel(name[0])
+    axs[1,1].set_ylabel(name[1])
+    axs[1,1].set_title('next pole_velocity')
+
+    fig.suptitle('Y changes with {} and {}'.format(name[0],name[1]),fontsize=16)
+
     plt.show()
 
 
-contour_plots(theta_scan, theta_dot_scan,Y23)
+contour_plots(x_scan,x_dot_scan,Y01,['x','x_dot'])
+contour_plots(x_scan,theta_scan,Y02,['x','theta'])
+contour_plots(x_scan,theta_dot_scan,Y03,['x','theta_dot'])
+contour_plots(x_dot_scan,theta_scan,Y12,['x_dot','theta'])
+contour_plots(x_dot_scan,theta_dot_scan,Y13,['x_dot','theta_dot'])
+contour_plots(theta_scan,theta_dot_scan,Y23,['theta', 'theta_dot'])

@@ -95,9 +95,9 @@ theta_dot_scan = np.linspace(-15,15,50)
 """first generate Z for the contours"""
 
 Y01 = [] # x & x_dot
-for x in x_scan:
+for x_dot in x_dot_scan:
     Y0 = []
-    for x_dot in x_dot_scan:
+    for x in x_scan:
         X = np.array([x,x_dot,np.pi,0])
         cartpole1.setState(X)
         cartpole1.performAction()
@@ -107,9 +107,9 @@ for x in x_scan:
 Y01 = np.array(Y01)
 
 Y02 = [] # x & theta
-for x in x_scan:
+for theta in theta_scan:
     Y0 = []
-    for theta in theta_scan:
+    for x in x_scan:
         X = np.array([x,0,theta,0])
         cartpole1.setState(X)
         cartpole1.performAction()
@@ -119,9 +119,9 @@ for x in x_scan:
 Y02 = np.array(Y02)
 
 Y03 = [] # x & theta_dot
-for x in x_scan:
+for theta_dot in theta_dot_scan:
     Y0 = []
-    for theta_dot in theta_dot_scan:
+    for x in x_scan:
         X = np.array([x,0,np.pi,theta_dot])
         cartpole1.setState(X)
         cartpole1.performAction()
@@ -131,9 +131,9 @@ for x in x_scan:
 Y03 = np.array(Y03)
 
 Y12 = [] # x_dot & theta
-for x_dot in x_dot_scan:
+for theta in theta_scan:
     Y1 = []
-    for theta in theta_scan:
+    for x_dot in x_dot_scan:
         X = np.array([0,x_dot,theta,0])
         cartpole1.setState(X)
         cartpole1.performAction()
@@ -143,9 +143,9 @@ for x_dot in x_dot_scan:
 Y12 = np.array(Y12)
 
 Y13 = [] # x_dot & theta_dot
-for x_dot in x_dot_scan:
+for theta_dot in theta_dot_scan:
     Y1 = []
-    for theta_dot in theta_dot_scan:
+    for x_dot in x_dot_scan:
         X = np.array([0,x_dot,np.pi,theta_dot])
         cartpole1.setState(X)
         cartpole1.performAction()
@@ -155,9 +155,9 @@ for x_dot in x_dot_scan:
 Y13 = np.array(Y13)
 
 Y23 = [] # theta & theta_dot
-for theta in theta_scan:
+for theta_dot in theta_dot_scan:
     Y2 = []
-    for theta_dot in theta_dot_scan:
+    for theta in theta_scan:
         X = np.array([0,0,theta,theta_dot])
         cartpole1.setState(X)
         cartpole1.performAction()

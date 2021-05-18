@@ -28,6 +28,8 @@ Y = np.array(Y)
 model = linear_model.LinearRegression()
 model.fit(X,Y)
 
+# change the time step
+cartpole1.delta_time = 0.1
 
 """setting time steps"""
 max_t = 10
@@ -42,7 +44,10 @@ theta_dot = random.uniform([-15,15,1])[0]
 Xn = np.array([x,x_dot,theta,theta_dot])
 # or define initial conditions as below:
 # to consider - oscillation around equilibrium, complete circular motion 
-# Xn = np.array([0,0,np.pi,-13.5])
+Xn = np.array([0,0,2,0])
+
+
+# try setting 
 
 """time evolution using perfromAction and model"""
 X_cartpole = []

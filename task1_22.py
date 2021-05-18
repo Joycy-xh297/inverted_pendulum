@@ -84,9 +84,16 @@ def plot_scan(t,y,scan):
 
 # plot_scan(t_data,y_data,scan_name)
 
+"""setting the state scans for contours"""
+x_scan = np.arange(-10,10,0.1)
+x_dot_scan = np.arange(-10,10,0.1)
+theta_scan = np.linspace(-np.pi,np.pi,50)
+theta_dot_scan = np.linspace(-15,15,50)
+
 # contour plots 4C2 = 6
 
 """first generate Z for the contours"""
+"""
 Y01 = [] # x & x_dot
 for x in x_scan:
     Y0 = []
@@ -146,7 +153,7 @@ for x_dot in x_dot_scan:
         Y1.append((Y-X))
     Y13.append(Y1)
 Y13 = np.array(Y13)
-
+"""
 Y23 = [] # theta & theta_dot
 for theta in theta_scan:
     Y2 = []
@@ -160,13 +167,16 @@ for theta in theta_scan:
 Y23 = np.array(Y23)
 
 
+
 """plot the contours"""
 def contour_plots(x,y,z):
     fig, ax = plt.subplots()
-    ax.tricontour(x, y, z, levels=14, linewidths=0.5, colors='k')
-    cntr = ax.tricontourf(x, y, z, levels=14, cmap="RdBu_r")
+    x, y = np.meshgrid(x,y)
+    triang = tri.Triangulation(x.flatten(), y.flatten())
+    cntr = ax.tricontourf(triang, z[:,:,0].flatten())
     fig.colorbar(cntr, ax=ax)
-    # fig.set_title('Y changing with {} and {}'.format('',''))
+    ax.tricontour(triang,z[:,:,0].flatten())
     plt.show()
 
-contour_plots(theta_scan, theta_dot_scan,Y23[:,0])
+
+contour_plots(theta_scan, theta_dot_scan,Y23)

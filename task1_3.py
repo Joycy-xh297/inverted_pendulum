@@ -10,7 +10,7 @@ cartpole1 = CartPole()
 """generating random states X and corresponding Y"""
 X = []
 Y = []
-for i in range(500):
+for i in range(5000):
     x = random.uniform([-5,5,1])[0]
     x_dot = random.uniform([-10,10,1])[0]
     theta = random.uniform([-np.pi,np.pi,1])[0]
@@ -27,6 +27,15 @@ Y = np.array(Y)
 """performing linear regression"""
 model = linear_model.LinearRegression()
 model.fit(X,Y)
+# coef = model.coef_
+# print(coef)
+"""
+matrix C is obtained as follows:
+[[-0.00276529  0.19940025 -0.01613208  0.01138566]
+ [-0.01184942  0.00290672 -0.47615685  0.0593577 ]
+ [-0.00279054 -0.00095829  0.04580174  0.19259279]
+ [-0.00458287  0.00717539 -0.55088481 -0.16938413]]
+"""
 
 """generate model prediction"""
 Y_predict = model.predict(X)
@@ -64,6 +73,7 @@ Y_predict = model.predict(X)
 # plt.show()
 
 """plotting comparison - real vs predict"""
+
 fig, axs = plt.subplots(2,2,figsize=(12,8),constrained_layout=True)
 
 axs[0,0].scatter(Y[:,0],Y_predict[:,0])

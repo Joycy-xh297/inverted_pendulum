@@ -10,10 +10,10 @@ cartpole1 = CartPole()
 # scans of variables
 
 """setting the state scans"""
-x_scan = np.arange(-0.5,0.5,0.01)
-x_dot_scan = np.arange(-5,5,0.1)
-theta_scan = np.arange(2.14,3.14,0.01)
-theta_dot_scan = np.arange(13.5,14.5,0.01)
+x_scan = np.linspace(-5,5,100)
+x_dot_scan = np.linspace(-10,10,100)
+theta_scan = np.linspace(np.pi-0.5,np.pi,100)
+theta_dot_scan = np.linspace(10,15,100)
 
 # """Y plot for x_dot scan"""
 # Y0 = []
@@ -60,35 +60,51 @@ theta_dot_scan = np.arange(13.5,14.5,0.01)
 # t_data = x_scan
 # y_data = Y0
 
-"""plotting"""
-def plot_scan(t,y,scan):
-    fig, axs = plt.subplots(2,2,figsize=(12,8),constrained_layout=True)
-    axs[0,0].plot(t,y[:,0])
-    axs[0,0].set_title('cart_location')
-    axs[0,0].set_xlabel(scan)
-    axs[0,0].set_ylabel('location (m)')
-    axs[0,1].plot(t,y[:,1])
-    axs[0,1].set_title('cart_velocity')
-    axs[0,1].set_xlabel(scan)
-    axs[0,1].set_ylabel('velocity (m/s)')
-    axs[1,0].plot(t,y[:,2])
-    axs[1,0].set_title('pole_angle')
-    axs[1,0].set_xlabel(scan)
-    axs[1,0].set_ylabel('angle (rad)')
-    axs[1,1].plot(t,y[:,3])
-    axs[1,1].set_title('pole_velocity')
-    axs[1,1].set_xlabel(scan)
-    axs[1,1].set_ylabel('angular velocity (rad/s)')
-    fig.suptitle('Y as a function of {} scan'.format(scan), fontsize=16)
-    plt.show()
+# """plotting"""
 
-# plot_scan(t_data,y_data,scan_name)
+# fig, axs = plt.subplots(2,2,figsize=(12,8),constrained_layout=True)
+# axs[0,0].plot(x_scan,Y0[:,0],label='change in location')
+# axs[0,0].plot(x_scan,Y0[:,1],label='change in velocity')
+# axs[0,0].plot(x_scan,Y0[:,2],label='change in pole angle')
+# axs[0,0].plot(x_scan,Y0[:,3],label='change in pole velocity')
+# axs[0,0].set_title('cart_location')
+# axs[0,0].set_xlabel('x (m)')
+# axs[0,0].set_ylabel('change in state Y')
+# axs[0,1].plot(x_dot_scan,Y1[:,0],label='change in location')
+# axs[0,1].plot(x_dot_scan,Y1[:,1],label='change in velocity')
+# axs[0,1].plot(x_dot_scan,Y1[:,2],label='change in pole angle')
+# axs[0,1].plot(x_dot_scan,Y1[:,3],label='change in pole velocity')
+# axs[0,1].set_title('cart_velocity')
+# axs[0,1].set_xlabel('x_dot (m/s)')
+# axs[0,1].set_ylabel('change in state Y')
+# axs[1,0].plot(theta_scan,Y2[:,0],label='change in location')
+# axs[1,0].plot(theta_scan,Y2[:,1],label='change in velocity')
+# axs[1,0].plot(theta_scan,Y2[:,2],label='change in pole angle')
+# axs[1,0].plot(theta_scan,Y2[:,3],label='change in pole velocity')
+# axs[1,0].set_title('pole_angle') 
+# axs[1,0].set_xlabel('theta (rad)')
+# axs[1,0].set_ylabel('change in state Y')
+# axs[1,1].plot(theta_dot_scan,Y3[:,0],label='change in location')
+# axs[1,1].plot(theta_dot_scan,Y3[:,1],label='change in velocity')
+# axs[1,1].plot(theta_dot_scan,Y3[:,2],label='change in pole angle')
+# axs[1,1].plot(theta_dot_scan,Y3[:,3],label='change in pole velocity')
+# axs[1,1].set_title('pole_velocity')
+# axs[1,1].set_xlabel('theta_dot (rad/s)')
+# axs[1,1].set_ylabel('change in state Y')
+# fig.suptitle('Y as a function of scans of state variables', fontsize=16)
+# handles, labels = axs[1,1].get_legend_handles_labels()
+# fig.legend(handles, labels)
+# # fig.tight_layout()
+# plt.show()
+
 
 """setting the state scans for contours"""
 x_scan = np.linspace(-10,10,50)
 x_dot_scan = np.linspace(-10,10,50)
 theta_scan = np.linspace(-np.pi,np.pi,50)
 theta_dot_scan = np.linspace(-15,15,50)
+# theta_scan = np.linspace(np.pi-0.5,np.pi,100)
+# theta_dot_scan = np.linspace(10,15,100)
 
 # contour plots 4C2 = 6
 
@@ -171,7 +187,7 @@ Y23 = np.array(Y23)
 """plot the contours"""
 def contour_plots(x,y,z,name):
 
-    fig, axs = plt.subplots(2,2,figsize=(12,8),constrained_layout=True)
+    fig, axs = plt.subplots(2,2,figsize=(9,16),constrained_layout=True)
     x, y = np.meshgrid(x,y)
     triang = tri.Triangulation(x.flatten(), y.flatten())
 
@@ -180,37 +196,37 @@ def contour_plots(x,y,z,name):
     axs[0,0].tricontour(triang,z[:,:,0].flatten())
     axs[0,0].set_xlabel(name[0])
     axs[0,0].set_ylabel(name[1])
-    axs[0,0].set_title('next cart_location')
+    axs[0,0].set_title('change in cart_location')
 
     cntr2 = axs[0,1].tricontourf(triang, z[:,:,1].flatten())
     fig.colorbar(cntr2, ax=axs[0,1])
     axs[0,1].tricontour(triang,z[:,:,1].flatten())
     axs[0,1].set_xlabel(name[0])
     axs[0,1].set_ylabel(name[1])
-    axs[0,1].set_title('next cart_velocity')
+    axs[0,1].set_title('change in cart_velocity')
 
     cntr3 = axs[1,0].tricontourf(triang, z[:,:,2].flatten())
     fig.colorbar(cntr3, ax=axs[1,0])
     axs[1,0].tricontour(triang,z[:,:,2].flatten())
     axs[1,0].set_xlabel(name[0])
     axs[1,0].set_ylabel(name[1])
-    axs[1,0].set_title('next pole angle')
+    axs[1,0].set_title('change in pole angle')
 
     cntr4 = axs[1,1].tricontourf(triang, z[:,:,3].flatten())
     fig.colorbar(cntr4, ax=axs[1,1])
     axs[1,1].tricontour(triang,z[:,:,3].flatten())
     axs[1,1].set_xlabel(name[0])
     axs[1,1].set_ylabel(name[1])
-    axs[1,1].set_title('next pole_velocity')
+    axs[1,1].set_title('change in pole_velocity')
 
     fig.suptitle('Y changes with {} and {}'.format(name[0],name[1]),fontsize=16)
 
     plt.show()
 
 
-contour_plots(x_scan,x_dot_scan,Y01,['x','x_dot'])
-contour_plots(x_scan,theta_scan,Y02,['x','theta'])
-contour_plots(x_scan,theta_dot_scan,Y03,['x','theta_dot'])
+# contour_plots(x_scan,x_dot_scan,Y01,['x','x_dot'])
+# contour_plots(x_scan,theta_scan,Y02,['x','theta'])
+# contour_plots(x_scan,theta_dot_scan,Y03,['x','theta_dot'])
 contour_plots(x_dot_scan,theta_scan,Y12,['x_dot','theta'])
 contour_plots(x_dot_scan,theta_dot_scan,Y13,['x_dot','theta_dot'])
-contour_plots(theta_scan,theta_dot_scan,Y23,['theta', 'theta_dot'])
+# contour_plots(theta_scan,theta_dot_scan,Y23,['theta', 'theta_dot'])

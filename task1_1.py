@@ -6,13 +6,15 @@ import matplotlib.pyplot as plt
 
 """initialisation"""
 cartpole1 = CartPole()
-max_t = 100.0 # terminate time for the simulation
+cartpole1.delta_time = 0.05
+max_t = 5.0 # terminate time for the simulation
 n = int(max_t/cartpole1.delta_time) # number of iterations for performAction
 
 """set the initial state to start with"""
-state1 = [0, 5, np.pi, 0] # nonzero cart velocity
-state2 = [0, 0, np.pi, -13.5] # nonzero angular velocity
-init_state = state1 
+state1 = [0, 1, np.pi, 0] # nonzero cart velocity
+state2 = [0, 0, np.pi, -14.7] # nonzero angular velocity
+state3 = [0.71, 0.89, 0.53, -1.2]
+init_state = state3
 cartpole1.setState(state=init_state)
 
 """lists of system variables"""
@@ -36,7 +38,7 @@ for i in range(n):
     # print(cartpole1.getState())
 
 """plotting the results"""
-fig, axs = plt.subplots(2,2,figsize=(12,8),constrained_layout=True)
+fig, axs = plt.subplots(2,2,figsize=(9,16),constrained_layout=True)
 axs[0,0].plot(t,x)
 axs[0,0].set_title('cart_location')
 axs[0,0].set_xlabel('time (s)')
@@ -49,7 +51,7 @@ axs[1,0].plot(t,theta)
 axs[1,0].set_title('pole_angle')
 axs[1,0].set_xlabel('time (s)')
 axs[1,0].set_ylabel('angle (rad)')
-# axs[1,0].set_xlim([0,8.0])
+axs[1,0].set_xlim([0,5.0])
 axs[1,1].plot(t,theta_dot)
 axs[1,1].set_title('pole_velocity')
 axs[1,1].set_xlabel('time (s)')

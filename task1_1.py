@@ -23,7 +23,6 @@ x_dot = []
 theta = []
 theta_dot = []
 t = np.arange(0,max_t,cartpole1.delta_time)
-t1 = np.arange(0,10.0,cartpole1.delta_time)
 
 """run the simulation"""
 for i in range(n):

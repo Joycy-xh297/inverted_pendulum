@@ -224,9 +224,9 @@ def contour_plots(x,y,z,name):
     plt.show()
 
 
-# contour_plots(x_scan,x_dot_scan,Y01,['x','x_dot'])
-# contour_plots(x_scan,theta_scan,Y02,['x','theta'])
-# contour_plots(x_scan,theta_dot_scan,Y03,['x','theta_dot'])
+contour_plots(x_scan,x_dot_scan,Y01,['x','x_dot'])
+contour_plots(x_scan,theta_scan,Y02,['x','theta'])
+contour_plots(x_scan,theta_dot_scan,Y03,['x','theta_dot'])
 contour_plots(x_dot_scan,theta_scan,Y12,['x_dot','theta'])
 contour_plots(x_dot_scan,theta_dot_scan,Y13,['x_dot','theta_dot'])
-# contour_plots(theta_scan,theta_dot_scan,Y23,['theta', 'theta_dot'])
+contour_plots(theta_scan,theta_dot_scan,Y23,['theta', 'theta_dot'])

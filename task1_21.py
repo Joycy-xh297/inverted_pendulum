@@ -15,7 +15,7 @@ theta_dot_scan = np.linspace(10,15,100)
 """Y plot for x scan"""
 Y0 = []
 for x in x_scan:
-    X = [x,0,np.pi,0]
+    X = [x,2,np.pi-1,5]
     cartpole1.setState(X)
     cartpole1.performAction()
     Y = cartpole1.getState()
@@ -25,7 +25,7 @@ Y0 = np.array(Y0)
 """Y plot for x_dot scan"""
 Y1 = []
 for x_dot in x_dot_scan:
-    X = [0,x_dot,np.pi,0]
+    X = [0,x_dot,np.pi-1,5]
     cartpole1.setState(X)
     cartpole1.performAction()
     Y = cartpole1.getState()
@@ -35,7 +35,7 @@ Y1 = np.array(Y1)
 """Y plot for theta scan"""
 Y2 = []
 for theta in theta_scan:
-    X = [0,0,theta,0]
+    X = [0,2,theta,5]
     cartpole1.setState(X)
     cartpole1.performAction()
     Y = cartpole1.getState()
@@ -45,7 +45,7 @@ Y2 = np.array(Y2)
 """Y plot for theta_dot scan"""
 Y3 = []
 for theta_dot in theta_dot_scan:
-    X = [0,0,np.pi,theta_dot]
+    X = [0,2,np.pi-1,theta_dot]
     cartpole1.setState(X)
     cartpole1.performAction()
     Y = cartpole1.getState()

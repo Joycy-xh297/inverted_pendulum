@@ -32,6 +32,7 @@ cartpole1 = CartPole()
 
 # change the time step
 # cartpole1.delta_time = 0.05
+cartpole1.sim_steps = 100
 
 """setting time steps"""
 max_t = 4
@@ -46,7 +47,7 @@ theta_dot = random.uniform([-15,15,1])[0]
 Xn = np.array([x,x_dot,theta,theta_dot])
 # or define initial conditions as below:
 # to consider - oscillation around equilibrium, complete circular motion 
-Xn = np.array([0,0,np.pi,-14.7])
+Xn = np.array([0,0,np.pi,3])
 # Xn = np.array([0,1,np.pi,0])
 
 
@@ -55,10 +56,13 @@ coef = np.matrix([[ 0.00078066,0.02962578,0.02914072,0.32273887],
  [ 0.2013879,0.0440882,0.00710757,0.14244893],
  [-0.01113819,-0.3663829,0.08273065,-0.08233264],
  [ 0.01375745,0.11951334,0.20538774,0.03247904]])
-
+# coef = np.matrix([[ 1.23998050e-03,  5.88584916e-02,  1.34306669e-01,  3.13695428e-01],
+#  [ 2.00791118e-01,  5.02234358e-02,  9.39783628e-02,  1.95999932e-01],
+#  [-1.07568013e-02, -3.73016149e-01, -1.69734541e+00, -1.70626087e-01],
+#  [ 1.27376638e-02,  9.25873822e-02, -3.02597684e-02, -1.19295336e-02]])
 """time evolution using perfromAction and model"""
-X_cartpole = []
-X_model = [] 
+X_cartpole = [Xn]
+X_model = [Xn] 
 
 Xn1_new = Xn
 Xn2_new = Xn
@@ -79,12 +83,12 @@ for i in range(steps):
     cartpole1.setState(Xn2)
     cartpole1.performAction()
     # # remapping the angle for performAction
-    # cartpole1.remap_angle()
+    cartpole1.remap_angle()
     Xn2_new = np.array(cartpole1.getState())
     X_cartpole.append(Xn2_new)
 
-X_cartpole = np.array(X_cartpole)
-X_model = np.array(X_model)
+X_cartpole = np.array(X_cartpole[:-1])
+X_model = np.array(X_model[:-1])
 
 """plotting"""
 t = np.arange(0,max_t,cartpole1.delta_time)

@@ -11,10 +11,10 @@ max_t = 5.0 # terminate time for the simulation
 n = int(max_t/cartpole1.delta_time) # number of iterations for performAction
 
 """set the initial state to start with"""
-state1 = [0, 1, np.pi, 0] # nonzero cart velocity
+state1 = [0, 0, np.pi, 3] # nonzero cart velocity
 state2 = [0, 0, np.pi, -14.7] # nonzero angular velocity
 state3 = [0.71, 0.89, 0.53, -1.2]
-init_state = state3
+init_state = state1
 cartpole1.setState(state=init_state)
 
 """lists of system variables"""

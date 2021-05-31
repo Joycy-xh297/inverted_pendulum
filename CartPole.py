@@ -24,7 +24,7 @@ def _remap_angle(theta):
 ## [cart location, cart velocity, pole angle, pole angular velocity]
 def _loss(state):
     sig = 0.5
-    return 1-np.exp(-np.dot(state,state)/(2.0 * sig**2))
+    return 1.0-np.exp(-np.dot(state,state)/(2.0 * sig**2))
 
 def loss(state):
     return _loss(state)

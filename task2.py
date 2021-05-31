@@ -28,12 +28,20 @@ def predict(X,XM,sigma,alpha):
     K_MN = kernel(X,XM,sigma)
     return np.matmul(K_MN,alpha)
 
-N = 500 # NO of datapoints
-M = 320 # NO of data locations for basis function
-lam = 10**(-3) # variance of data noise
+def l(X,sigma):
+    """X: state vector"""
+    sum = 0
+    for i,x in enumerate(X):
+        sum += -0.5*np.linalg.norm(x)**2/sigma[i]**2
+    return 1.0-np.exp(sum)
+        
+
+N = 1000 # NO of datapoints
+M = 640 # NO of data locations for basis function
+lam = 10**(-4) # variance of data noise
 cartpole1 = CartPole()
 
-# generate the dataset
+# added from 2.2
 X = []
 Y = []
 for i in range(N):
@@ -41,14 +49,32 @@ for i in range(N):
     x_dot = random.uniform(-10,10)
     theta = random.uniform(-np.pi,np.pi)
     theta_dot = random.uniform(-15,15)
-    Xn = np.array([x,x_dot,theta,theta_dot])
+    act = random.uniform(-20,20)
+    Xn = np.array([x,x_dot,theta,theta_dot,act])
     X.append(Xn)
-    cartpole1.setState(Xn)
-    cartpole1.performAction()
+    cartpole1.setState(Xn[:-1])
+    cartpole1.performAction(action=Xn[-1])
     Xn_1 = np.array(cartpole1.getState())
-    Y.append(Xn_1-Xn)
+    Y.append(Xn_1-Xn[:-1])
 X = np.array(X)
 Y = np.array(Y)
+
+# # generate the dataset
+# X = []
+# Y = []
+# for i in range(N):
+#     x = random.uniform(-5,5)
+#     x_dot = random.uniform(-10,10)
+#     theta = random.uniform(-np.pi,np.pi)
+#     theta_dot = random.uniform(-15,15)
+#     Xn = np.array([x,x_dot,theta,theta_dot])
+#     X.append(Xn)
+#     cartpole1.setState(Xn)
+#     cartpole1.performAction()
+#     Xn_1 = np.array(cartpole1.getState())
+#     Y.append(Xn_1-Xn)
+# X = np.array(X)
+# Y = np.array(Y)
 
 M_ind = random.sample(range(N),M)
 XM = np.array([X[ind] for ind in M_ind])
@@ -91,8 +117,37 @@ plt.show()
 # setting parameters
 max_t = 4.0
 steps = int(max_t/cartpole1.delta_time) # 0.2s per step
-Xn = np.array([0,0,np.pi,-14.7])
 
+
+# Xn = np.array([0,0,np.pi,3.0])
+
+# X_cartpole = [Xn]
+# X_model = [Xn] 
+
+# Xn1_new = Xn
+# Xn2_new = Xn
+
+# for i in range(steps):
+#     Xn1 = Xn1_new
+#     Xn2 = Xn2_new
+#     Xn1 = Xn1.reshape(1,Xn1.shape[0])
+#     Yn1 = predict(Xn1,XM,sigma,alpha)
+#     Xn1_new = Xn1 + Yn1
+#     Xn1_new = np.array(Xn1_new[0])
+#     Xn1_new[2] = remap_angle(Xn1_new[2])
+#     X_model.append(Xn1_new)
+#     cartpole1.setState(Xn2)
+#     cartpole1.performAction()
+#     cartpole1.remap_angle()
+#     Xn2_new = np.array(cartpole1.getState())
+#     X_cartpole.append(Xn2_new)
+
+# X_cartpole = np.array(X_cartpole[:-1])
+# X_model = np.array(X_model[:-1])
+
+Xn = np.array([0,0,np.pi,-14.7,0.0])
+z = np.zeros((M,1))
+np.append(XM,z,axis=1)
 X_cartpole = [Xn]
 X_model = [Xn] 
 
@@ -104,19 +159,21 @@ for i in range(steps):
     Xn2 = Xn2_new
     Xn1 = Xn1.reshape(1,Xn1.shape[0])
     Yn1 = predict(Xn1,XM,sigma,alpha)
+    Yn1.resize(Xn1.shape)
     Xn1_new = Xn1 + Yn1
     Xn1_new = np.array(Xn1_new[0])
     Xn1_new[2] = remap_angle(Xn1_new[2])
     X_model.append(Xn1_new)
-    cartpole1.setState(Xn2)
+    cartpole1.setState(Xn2[:-1])
     cartpole1.performAction()
     cartpole1.remap_angle()
-    Xn2_new = np.array(cartpole1.getState())
+    Xn2_new = cartpole1.getState()
+    Xn2_new.resize(Xn2.shape)
+    Xn2_new = np.array(Xn2_new)
     X_cartpole.append(Xn2_new)
 
 X_cartpole = np.array(X_cartpole[:-1])
 X_model = np.array(X_model[:-1])
-
 
 print('start plotting')
 """plotting"""

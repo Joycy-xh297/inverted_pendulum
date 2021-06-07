@@ -30,7 +30,10 @@ def predict(X,XM,sigma,alpha):
 
 """exploring the MSE as a function of increasing datapoints and basis functions"""
 def mse(y1,y2):
-    return np.linalg.norm(y1-y2)**2/y1.shape[0]
+    se = 0
+    for i,j in zip(y1,y2):
+        se += np.linalg.norm(y1-y2)
+    return se/y1.shape[0]
 
 N = 500 # NO of datapoints
 M = 320 # NO of data locations for basis function
